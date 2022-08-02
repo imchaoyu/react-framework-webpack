@@ -1,8 +1,10 @@
+const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const { isDev, isProd, resolveAPP } = require('./webpack.utils');
 
 const devServer = {
@@ -44,6 +46,7 @@ module.exports = function (env) {
         ? 'static/js/[name].[contenthash:4].chunk.js'
         : 'static/js/[name].[contenthash:8].chunk.js',
       assetModuleFilename: 'static/media/[name].[hash][ext]',
+      pathinfo: false,
     },
     // 设置缓存提升打包速度
     cache: {
@@ -161,6 +164,11 @@ module.exports = function (env) {
         filename: 'static/css/[name].[contenthash:8].css',
         chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
       }),
+      // 分析
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
+        generateStatsFile: true, // 是否生成stats.json文件
+      }),
     ],
     optimization: {
       moduleIds: isDev ? 'named' : 'deterministic',
@@ -212,7 +220,11 @@ module.exports = function (env) {
         '@api': resolveAPP('../src/api'),
       },
     },
-    devtool: isDev ? 'cheap-module-source-map' : false,
+    externals: {
+      react: 'react',
+      'react-dom': 'react-dom',
+    },
+    devtool: isDev ? 'eval-cheap-module-source-map' : false,
   };
   if (isDev) config.devServer = devServer;
   return config;
