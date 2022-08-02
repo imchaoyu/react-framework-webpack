@@ -27,7 +27,7 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
     isDev && require.resolve('style-loader'),
     isProd && {
       loader: MiniCssExtractPlugin.loader,
-      // options: paths.publicUrlOrPath.startsWith('.') ? { publicPath: '../../' } : {},
+      // options: process.env.PUBLIC_URL.startsWith('.') ? { publicPath: '../../' } : {},
     },
     {
       loader: require.resolve('css-loader'),
