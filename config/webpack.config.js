@@ -4,10 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const { isDev, isProd, resolveAPP } = require('./webpack.utils');
+const { cdn, externals } = require('./cdns');
 
 const devServer = {
   // 开发环境本地启动的服务配置
@@ -139,6 +139,7 @@ module.exports = function (env) {
             inject: true,
             template: resolveAPP('../public/index.html'),
             favicon: resolveAPP('../public/favicon.png'),
+            cdn,
           },
           isProd
             ? {
@@ -159,17 +160,20 @@ module.exports = function (env) {
         ),
       ),
       // 定义全局变量
-      // new webpack.DefinePlugin({
-      //   PUBLIC_URL: resolveAPP('../public'),
-      // }),
+      new webpack.DefinePlugin({
+        APP_VERSION: `"${require('../package.json').version}"`,
+      }),
       new MiniCssExtractPlugin({
         filename: 'static/css/[name].[contenthash:8].css',
         chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
       }),
-      // antd moment替换成dayjs
-      new AntdDayjsWebpackPlugin(),
       // lodash按需加载
       new LodashModuleReplacementPlugin(),
+      // 忽略moment locale模块
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/,
+        contextRegExp: /moment$/,
+      }),
       // 分析
       new BundleAnalyzerPlugin({
         analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
@@ -226,10 +230,7 @@ module.exports = function (env) {
         '@api': resolveAPP('../src/api'),
       },
     },
-    // externals: {
-    //   react: 'react',
-    //   'react-dom': 'react-dom',
-    // },
+    externals,
     devtool: isDev ? 'eval-cheap-module-source-map' : false,
   };
   if (isDev) config.devServer = devServer;
