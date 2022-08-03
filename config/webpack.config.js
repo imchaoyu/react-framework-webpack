@@ -4,6 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const { isDev, isProd, resolveAPP } = require('./webpack.utils');
 
@@ -164,6 +166,10 @@ module.exports = function (env) {
         filename: 'static/css/[name].[contenthash:8].css',
         chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
       }),
+      // antd moment替换成dayjs
+      new AntdDayjsWebpackPlugin(),
+      // lodash按需加载
+      new LodashModuleReplacementPlugin(),
       // 分析
       new BundleAnalyzerPlugin({
         analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
@@ -220,10 +226,10 @@ module.exports = function (env) {
         '@api': resolveAPP('../src/api'),
       },
     },
-    externals: {
-      react: 'react',
-      'react-dom': 'react-dom',
-    },
+    // externals: {
+    //   react: 'react',
+    //   'react-dom': 'react-dom',
+    // },
     devtool: isDev ? 'eval-cheap-module-source-map' : false,
   };
   if (isDev) config.devServer = devServer;

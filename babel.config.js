@@ -1,15 +1,11 @@
 module.exports = {
-  // "presets": [
-  //   ["@babel/preset-react", {
-  //   "runtime": "automatic"
-  // }],
   presets: [
     [
       '@babel/preset-env',
-      {
-        useBuiltIns: 'usage',
-        corejs: 3,
-      },
+      // {
+      //   useBuiltIns: 'usage',
+      //   corejs: 3,
+      // },
     ],
     [
       '@babel/preset-react',
@@ -18,14 +14,5 @@ module.exports = {
       },
     ],
   ],
-  plugins: [
-    [
-      'import',
-      {
-        libraryName: 'antd',
-        libraryDirectory: 'es',
-        style: true,
-      },
-    ],
-  ],
+  plugins: ['lodash'],
 };
