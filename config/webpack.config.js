@@ -162,6 +162,10 @@ module.exports = function (env) {
       // 定义全局变量
       new webpack.DefinePlugin({
         APP_VERSION: `"${require('../package.json').version}"`,
+        'process.env': {
+          MOCK: process.env.MOCK,
+          APP_ENV: process.env.APP_ENV,
+        },
       }),
       new MiniCssExtractPlugin({
         filename: 'static/css/[name].[contenthash:8].css',

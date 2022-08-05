@@ -1,3 +1,4 @@
+import { isHttp } from '@/utils';
 import axios from 'axios';
 import { isEncode, pkgVersion } from '../../config/defaultSettings';
 
@@ -12,10 +13,11 @@ const request = axios.create({
 // 请求拦截器
 request.interceptors.request.use(
   async (options) => {
-    const url = apiPrefix + options.url;
+    const url = isHttp(options.url) ? options.url : apiPrefix + options.url;
+    console.log('url: ', url);
     const tokenID = sessionStorage.getItem('tokenID') ?? '';
     options.headers['x-sys-sessionid'] = tokenID;
-    console.log('isEncode', isEncode);
+    console.log('isEncode', isEncode, APP_VERSION);
     console.log('options: ', options);
     return {
       ...options,

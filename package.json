@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env APP_ENV=dev webpack serve --config ./config/webpack.config.js --progress",
-    "dev": "node config/server.js",
+    "dev": "cross-env APP_ENV=dev MOCK=true webpack serve --config ./config/webpack.config.js --progress",
     "build": "cross-env APP_ENV=prod webpack --config ./config/webpack.config.js --progress",
     "analyze": "webpack-bundle-analyzer --port 9999 ./dist/stats.json"
   },
@@ -29,6 +29,7 @@
     "less-loader": "^11.0.0",
     "lodash-webpack-plugin": "^0.11.6",
     "mini-css-extract-plugin": "^2.6.1",
+    "mockjs": "^1.1.0",
     "postcss": "^8.4.14",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-loader": "^7.0.1",
