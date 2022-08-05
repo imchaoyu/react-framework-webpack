@@ -1,6 +1,6 @@
 {
   "name": "admin",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "a system by react and eggjs",
   "author": "chaoyumail@126.com",
   "main": "index.js",
@@ -41,15 +41,13 @@
     "webpack": "^5.74.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.9.3",
-    "webpack-merge": "^5.8.0"
+    "webpack-dev-server": "^4.9.3"
   },
   "dependencies": {
     "antd": "^4.22.2",
     "axios": "^0.27.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router": "^6.3.0"
+    "react-dom": "^18.2.0"
   },
   "keywords": [
     "react",
