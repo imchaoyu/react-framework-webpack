@@ -1,6 +1,7 @@
 import { getKeyByDemo } from '@/services/demo';
 import { Button } from 'antd';
 import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   const [data, setData] = useState(null);
@@ -14,6 +15,7 @@ function App() {
     <>
       <Button onClick={handleChange}>点我</Button>
       <div>{data}</div>
+      <Outlet />
     </>
   );
 }
