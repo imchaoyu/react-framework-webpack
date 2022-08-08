@@ -1,17 +1,32 @@
 const pkg = require('../package.json');
+const env = process.env.APP_ENV;
 const getVersion = (param) => {
   return pkg.dependencies[param].split('^')[1];
 };
 
 /**
  * dll列表
- * 数组说明：0:external使用，1:cdn的js，2:csn的css
+ * 数组说明：
+ * key:三方库名称，
+ * value:三方库全局变量（key，value供externals使用），
+ * dev:开发环境链接，
+ * prod:生产环境链接,
+ * css:css链接
  */
-const dlllist = {
-  react: ['React', 'umd/react.production.min.js'],
-  'react-dom': ['ReactDOM', 'umd/react-dom.production.min.js'],
-  // antd: ['antd', 'antd.min.js', 'antd.min.css'],
-};
+const DLLLIST = [
+  {
+    key: 'react',
+    value: 'React',
+    dev: 'umd/react.development.min.js',
+    prod: 'umd/react.production.min.js',
+  },
+  {
+    key: 'react-dom',
+    value: 'ReactDOM',
+    dev: 'umd/react-dom.development.min.js',
+    prod: 'umd/react-dom.production.min.js',
+  },
+];
 
 const externals = {};
 
@@ -26,10 +41,10 @@ const CDNURL = {
   },
 };
 
-Object.entries(dlllist).map((entry) => {
-  cdn.js.push(CDNURL.bootcdn(entry[0], entry[1][1]));
-  entry[1][2] && cdn.css.push(CDNURL.bootcdn(entry[0], entry[1][2]));
-  externals[entry[0]] = entry[1][0];
+DLLLIST.map((entry) => {
+  cdn.js.push(CDNURL.bootcdn(entry.key, entry[env]));
+  entry.css && cdn.css.push(CDNURL.bootcdn(entry.key, entry.css));
+  externals[entry.key] = entry.value;
 });
 
 module.exports = { cdn, externals };
