@@ -1,23 +1,50 @@
-import React from 'react';
+import { lazy, memo, Suspense } from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 
-// import Loading from 'components/loading';
-// import NotFind from 'components/notFind';
+import Loading from '@/components/Loading';
+import BasicLayout from '@/layout/BasicLayout';
+import { routes } from './routes';
 
-import { mainRouteConfig } from './routes';
+//
+const lazyLoad = (path) => {
+  if (!path) return;
+  const regPath = path.replace('./', '');
+  console.log('`@/pages/${regPath}`: ', `@/pages/${regPath}`);
+  return lazy(() => import(`@/pages/${regPath}`));
+};
 
 const renderRouter = (routerList) => {
   return routerList.map((item) => {
-    const { path, exact, noAuth, children } = item;
-    const token = localStorage.getItem('token');
-    // 无权限拦截
-    if (!noAuth && !token)
-      return <Route path="*" key={'login'} element={<Navigate to="/login" />} />;
+    const { path, children } = item;
+    const layout = item.layout ?? true;
+    // const token = localStorage.getItem('token');
+    // console.log(token);
+    // if (!noAuth && !token) return <Route path="*" element={<Navigate to="/login" />} />;
+    // const ele = LazyLoad(item.component);
+    // console.log(item.component, ele);
+    if (!item.path) {
+      return <Route path={item.from} element={<item.to />} />;
+    }
+    const ele = item.component && !layout ? <item.component /> : <BasicLayout />;
+
     return (
-      <Route key={path} exact={exact} path={path} element={<item.component />}>
+      <Route
+        key={path}
+        exact={item.exact ?? true}
+        path={path}
+        element={item.redirect ? <Navigate to={item.redirect} /> : ele}
+      >
         {!!children &&
           children.map((i) => {
-            return <Route key={i.path} exact={i.exact} path={i.path} element={<i.component />} />;
+            const iele = i.component && !i.layout ? <i.component /> : <BasicLayout />;
+            return (
+              <Route
+                key={i.path}
+                exact={i.exact ?? true}
+                path={i.path}
+                element={i.redirect ? <Navigate to={i.redirect} /> : iele}
+              />
+            );
           })}
       </Route>
     );
@@ -27,15 +54,11 @@ const renderRouter = (routerList) => {
 const Routers = (props) => {
   return (
     <Router>
-      <React.Suspense fallback={<>loading...</>}>
-        <Routes>
-          {renderRouter(mainRouteConfig)}
-          {/* 404 */}
-          <Route path="*" element={<>404,to login</>} />
-        </Routes>
-      </React.Suspense>
+      <Suspense fallback={<Loading />}>
+        <Routes>{renderRouter(routes)}</Routes>
+      </Suspense>
     </Router>
   );
 };
 
-export default React.memo(Routers);
+export default memo(Routers);

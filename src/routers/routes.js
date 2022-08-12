@@ -1,23 +1,45 @@
 //index.js
-import React from 'react';
+import { NotFound } from '@/components/404';
+import { lazy } from 'react';
 
-const App = React.lazy(() => import(/* webpackChunkName: "Home" */ '@/App'));
-const Login = React.lazy(() => import(/* webpackChunkName: "Login" */ '@/pages/login'));
-const System = React.lazy(() => import(/* webpackChunkName: "Login" */ '@/pages/system'));
-const Home = React.lazy(() => import(/* webpackChunkName: "Login" */ '@/pages/home'));
+// const BasicLayout = lazy(() => import(/* webpackChunkName: "Layout" */ '@/layout'));
+const App = lazy(() => import(/* webpackChunkName: "Layout" */ '@/pages/App'));
+const Login = lazy(() => import(/* webpackChunkName: "Login" */ '@/pages/Login'));
+const System = lazy(() => import(/* webpackChunkName: "System" */ '@/pages/System'));
+const Home = lazy(() => import(/* webpackChunkName: "Home" */ '@/pages/Home'));
 
 // 主路由
-export const mainRouteConfig = [
+export const routes = [
   {
     path: '/',
-    title: '首页',
-    exact: true,
-    component: App,
-    noAuth: true,
+    name: '首页',
+    icon: 'smile',
+    accsee: '',
     children: [
-      { path: '/home', title: '首页', exact: true, component: Home, noAuth: true },
-      { path: '/system', title: '系统', exact: true, component: System, noAuth: true },
+      { path: '/', redirect: '/home' },
+      {
+        path: '/home',
+        name: '首页',
+        icon: 'Home',
+        component: Home,
+      },
+      { path: '/app', name: 'APP', icon: 'smile', component: App },
+      {
+        path: '/system',
+        name: '系统',
+        icon: 'smile',
+        component: System,
+      },
     ],
   },
-  { path: '/login', title: '登录', exact: true, component: Login, noAuth: true },
+  {
+    path: '/login',
+    name: '登录',
+    layout: false,
+    component: Login,
+  },
+  {
+    from: '*',
+    to: NotFound,
+  },
 ];

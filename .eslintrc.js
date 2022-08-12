@@ -1,4 +1,6 @@
 module.exports = {
   extends: [require.resolve('cy-style/dist/eslint')],
-  rules: {},
+  rules: {
+    'no-unused-vars': 0,
+  },
 };

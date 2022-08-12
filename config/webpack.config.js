@@ -231,7 +231,7 @@ module.exports = function (env) {
       alias: {
         // 配置别名
         '@': resolveAPP('../src'),
-        '@api': resolveAPP('../src/api'),
+        '@api': resolveAPP('../src/services'),
       },
     },
     externals,

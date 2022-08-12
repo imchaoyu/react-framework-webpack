@@ -1,4 +1,4 @@
-import { getKeyByDemo } from '@/services/demo';
+import { getKeyByDemo } from '@api/demo';
 import { Button } from 'antd';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
