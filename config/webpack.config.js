@@ -5,6 +5,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const chalk = require('chalk');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const { isDev, isProd, resolveAPP } = require('./webpack.utils');
 const { cdn, externals } = require('./cdns');
@@ -159,6 +162,13 @@ module.exports = function (env) {
             : undefined,
         ),
       ),
+      // 进度条
+      new ProgressBarPlugin({
+        format: `:msg [:bar] ${chalk.green.bold(':percent')} (:elapsed s)`,
+      }),
+      // 热更新
+      new webpack.HotModuleReplacementPlugin(),
+      new ReactRefreshWebpackPlugin(),
       // 定义全局变量
       new webpack.DefinePlugin({
         APP_VERSION: `"${require('../package.json').version}"`,
@@ -191,6 +201,7 @@ module.exports = function (env) {
       runtimeChunk: { name: 'runtime' },
       minimizer: [
         new TerserPlugin({
+          parallel: 4,
           terserOptions: {
             parse: {
               ecma: 8,
@@ -218,10 +229,12 @@ module.exports = function (env) {
       splitChunks: {
         cacheGroups: {
           vendors: {
-            test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|axios|history|scheduler|react-is|prop-types|object-assign|mini-create-react-context|hoist-non-react-statics|resolve-pathname|value-equal|tiny-invariant)[\\/]/,
-            name: 'vendors',
+            // node_modules里的代码
+            test: /[\\/]node_modules[\\/]/,
             chunks: 'all',
-            priority: 100,
+            // name: 'vendors', 一定不要定义固定的name
+            priority: 10, // 优先级
+            enforce: true,
           },
         },
       },
