@@ -12,24 +12,6 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const { isDev, isProd, resolveAPP } = require('./webpack.utils');
 const { cdn, externals } = require('./cdns');
 
-const devServer = {
-  // 开发环境本地启动的服务配置
-  static: {
-    directory: resolveAPP('../dist'),
-  },
-  port: 3000,
-  // 自动打开浏览器
-  // open: true,
-  hot: true,
-  // 服务器代理 --> 解决开发环境跨域问题
-  // proxy: devProxy,
-  historyApiFallback: true, // 当找不到路径时，默认加载index.html
-  client: {
-    // 不显示[webpack-dev-server]的log
-    logging: 'none',
-  },
-};
-
 module.exports = function (env) {
   // 提取css
   const styleLoader = isDev ? 'style-loader' : MiniCssExtractPlugin.loader;
@@ -164,7 +146,9 @@ module.exports = function (env) {
       ),
       // 进度条
       new ProgressBarPlugin({
-        format: `:msg [:bar] ${chalk.green.bold(':percent')} (:elapsed s)`,
+        format: `:msg [:bar] ${chalk.cyan(':percent')} (:elapsed s)`,
+        clear: false,
+        incomplete: '*',
       }),
       // 热更新
       new webpack.HotModuleReplacementPlugin(),
@@ -187,11 +171,6 @@ module.exports = function (env) {
       new webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,
         contextRegExp: /moment$/,
-      }),
-      // 分析
-      new BundleAnalyzerPlugin({
-        analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
-        generateStatsFile: true, // 是否生成stats.json文件
       }),
     ],
     optimization: {
@@ -240,7 +219,7 @@ module.exports = function (env) {
       },
     },
     resolve: {
-      extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.mjs', '.cjs', '.css', '.less'],
+      extensions: ['.js', '.jsx', '.less', '.css'],
       alias: {
         // 配置别名
         '@': resolveAPP('../src'),
@@ -249,7 +228,19 @@ module.exports = function (env) {
     },
     externals,
     devtool: isDev ? 'eval-cheap-module-source-map' : false,
+    infrastructureLogging: {
+      level: 'none',
+    },
   };
-  if (isDev) config.devServer = devServer;
+  // if (isDev) config.devServer = devServer;
+  if (isProd) {
+    config.plugins.push(
+      // 打包分析
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
+        generateStatsFile: true, // 是否生成stats.json文件
+      }),
+    );
+  }
   return config;
 };

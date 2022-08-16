@@ -1,12 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WebpackDevServer = require('webpack-dev-server');
 
 // 是否使用了tailwind，默认否
 const useTailwind = fs.existsSync(path.join('tailwind.config.js'));
 
 const isProd = process.env.APP_ENV === 'production';
-const isDev = process.env.APP_ENV === 'dev';
+const isDev = process.env.APP_ENV === 'development';
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 
 const resolveAPP = (_path) => path.resolve(__dirname, _path);
@@ -91,10 +92,17 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
   return loaders;
 };
 
+const ipv = () => {
+  const localIPv4 = WebpackDevServer.internalIPSync('v4');
+  const localIPv6 = WebpackDevServer.internalIPSync('v6');
+  return localIPv6 ?? localIPv4;
+};
+
 module.exports = {
   isDev,
   isProd,
   resolveAPP,
   getGlobalConstants,
   getStyleLoaders,
+  ipv,
 };

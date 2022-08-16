@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 // import App from './App';
 import Router from './routers';
 
+console.log('process.env.APP_ENV: ', process.env.APP_ENV);
 if (process.env.MOCK) {
   require('../mock');
   console.log('%c前端 mock 环境启动成功', 'color: green;font-weight: bold');
