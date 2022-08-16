@@ -26,7 +26,6 @@ const renderRouter = (routerList) => {
       return <Route path={item.from} element={<item.to />} />;
     }
     const ele = item.component && !layout ? <item.component /> : <BasicLayout />;
-
     return (
       <Route
         key={path}
