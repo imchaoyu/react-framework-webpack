@@ -23,7 +23,7 @@ const serverConfig = {
     // 不显示[webpack-dev-server]的log
     logging: 'none',
     progress: false,
-    reconnect: true,
+    reconnect: false,
   },
 };
 module.exports = function (env) {
@@ -36,15 +36,13 @@ module.exports = function (env) {
     bail: isProd,
     mode: isDev ? 'development' : 'production',
     entry: {
-      index: resolveAPP('../src/index'),
+      main: resolveAPP('../src/index'),
     },
     output: {
       path: resolveAPP('../dist'),
-      filename: isDev
-        ? 'static/js/[name].[contenthash:4].js'
-        : 'static/js/[name].[contenthash:8].js',
+      filename: isDev ? 'static/js/[name].bundle.js' : 'static/js/[name].[contenthash:8].js',
       chunkFilename: isDev
-        ? 'static/js/[name].[contenthash:4].chunk.js'
+        ? 'static/js/[name].chunk.js'
         : 'static/js/[name].[contenthash:8].chunk.js',
       assetModuleFilename: 'static/media/[name].[hash][ext]',
       pathinfo: false,

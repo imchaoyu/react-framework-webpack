@@ -1,13 +1,3 @@
-//index.js
-import { NotFound } from '@/components/404';
-import { lazy } from 'react';
-
-// const BasicLayout = lazy(() => import(/* webpackChunkName: "Layout" */ '@/layout'));
-const App = lazy(() => import(/* webpackChunkName: "Layout" */ '@/pages/App'));
-const Login = lazy(() => import(/* webpackChunkName: "Login" */ '@/pages/Login'));
-const System = lazy(() => import(/* webpackChunkName: "System" */ '@/pages/System'));
-const Home = lazy(() => import(/* webpackChunkName: "Home" */ '@/pages/Home'));
-
 // 主路由
 export const routes = [
   {
@@ -21,14 +11,14 @@ export const routes = [
         path: '/home',
         name: '首页',
         icon: 'Home',
-        component: Home,
+        component: 'pages/Home',
       },
-      { path: '/app', name: 'APP', icon: 'smile', component: App },
+      { path: '/app', name: 'APP', icon: 'smile', component: 'pages/App' },
       {
         path: '/system',
         name: '系统',
         icon: 'smile',
-        component: System,
+        component: 'pages/System',
       },
     ],
   },
@@ -36,10 +26,10 @@ export const routes = [
     path: '/login',
     name: '登录',
     layout: false,
-    component: Login,
+    component: 'pages/Login',
   },
   {
     from: '*',
-    to: NotFound,
+    to: 'components/404/404',
   },
 ];

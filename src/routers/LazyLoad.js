@@ -1,12 +1,16 @@
 // 路由懒加载的封装
-import { lazy } from 'react';
+import { NotFound } from '@/components/404';
+import Loading from '@/components/Loading';
+import { lazy, Suspense } from 'react';
 
 const LazyLoad = (path) => {
-  if (!path) return;
-  const pathname = path.replace('./', '');
-  const Comp = lazy(() => import('@/pages/' + pathname));
-  console.log('Comp: ', Comp, <Comp />);
-  return <Comp />;
+  if (!path) return <NotFound />;
+  const Component = lazy(() => import(`../${path}`));
+  return (
+    <Suspense fallback={<Loading />}>
+      <Component />
+    </Suspense>
+  );
 };
 
 export default LazyLoad;

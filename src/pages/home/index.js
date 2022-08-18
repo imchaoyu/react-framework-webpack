@@ -1,4 +1,2 @@
-const home = () => {
-  return <h1>home</h1>;
-};
-export default home;
+import Home from './Home';
+export default Home;

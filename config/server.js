@@ -1,7 +1,9 @@
-process.env.BABEL_ENV = 'development';
-process.env.NODE_ENV = 'development';
-process.env.APP_ENV = 'development';
-process.env.MOCK = true;
+const args = process.argv.slice(2);
+
+process.env.BABEL_ENV = args[0];
+process.env.NODE_ENV = args[0];
+process.env.APP_ENV = args[0];
+process.env.MOCK = !!args[1];
 
 const Webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');

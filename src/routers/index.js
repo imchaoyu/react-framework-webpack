@@ -1,17 +1,9 @@
-import { lazy, memo, Suspense } from 'react';
+import { memo } from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
-
-import Loading from '@/components/Loading';
-import BasicLayout from '@/layout/BasicLayout';
 import { routes } from './routes';
 
-//
-const lazyLoad = (path) => {
-  if (!path) return;
-  const regPath = path.replace('./', '');
-  console.log('`@/pages/${regPath}`: ', `@/pages/${regPath}`);
-  return lazy(() => import(`@/pages/${regPath}`));
-};
+import BasicLayout from '@/layout/BasicLayout';
+import LazyLoad from './LazyLoad';
 
 const renderRouter = (routerList) => {
   return routerList.map((item) => {
@@ -20,12 +12,10 @@ const renderRouter = (routerList) => {
     // const token = localStorage.getItem('token');
     // console.log(token);
     // if (!noAuth && !token) return <Route path="*" element={<Navigate to="/login" />} />;
-    // const ele = LazyLoad(item.component);
-    // console.log(item.component, ele);
     if (!item.path) {
-      return <Route path={item.from} element={<item.to />} />;
+      return <Route key={item.to} path={item.from} element={LazyLoad(item.to)} />;
     }
-    const ele = item.component && !layout ? <item.component /> : <BasicLayout />;
+    const ele = item.component && !layout ? LazyLoad(item.component) : <BasicLayout />;
     return (
       <Route
         key={path}
@@ -35,7 +25,7 @@ const renderRouter = (routerList) => {
       >
         {!!children &&
           children.map((i) => {
-            const iele = i.component && !i.layout ? <i.component /> : <BasicLayout />;
+            const iele = i.component && !i.layout ? LazyLoad(i.component) : <BasicLayout />;
             return (
               <Route
                 key={i.path}
@@ -53,9 +43,7 @@ const renderRouter = (routerList) => {
 const Routers = (props) => {
   return (
     <Router>
-      <Suspense fallback={<Loading />}>
-        <Routes>{renderRouter(routes)}</Routes>
-      </Suspense>
+      <Routes>{renderRouter(routes)}</Routes>
     </Router>
   );
 };

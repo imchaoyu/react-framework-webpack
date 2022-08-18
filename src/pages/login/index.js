@@ -1,4 +1,2 @@
-const login = () => {
-  return <h1>login</h1>;
-};
-export default login;
+import Login from './Login';
+export default Login;
