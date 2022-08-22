@@ -1,5 +1,4 @@
 process.env.APP_ENV = 'development';
-process.env.MOCK = true;
 
 // 未捕获
 process.on('unhandledRejection', (err) => {

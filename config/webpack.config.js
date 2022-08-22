@@ -14,20 +14,11 @@ const serverConfig = {
   // 开发环境本地启动的服务配置
   static: {
     directory: resolveAPP('../public'),
-    // watch: {
-    //   // ignored: ignoredFiles(resolveAPP('./src')),
-    // },
   },
   port: 3000,
   compress: true,
   // proxy: devProxy,
   historyApiFallback: true, // 当找不到路径时，默认加载index.html
-  // client: {
-  //   // 不显示[webpack-dev-server]的log
-  //   logging: 'none',
-  //   progress: false,
-  //   reconnect: false,
-  // },
 };
 module.exports = function (env) {
   const isDev = env === 'development';
@@ -105,31 +96,6 @@ module.exports = function (env) {
           },
         },
         { test: /\.(woff(2)?|eot|ttf|otf)$/, type: 'asset/fonts' },
-        // {
-        //   test: /\.css$/,
-        //   exclude: /node_modules/,
-        //   use: getStyleLoaders({
-        //     importLoaders: 1,
-        //     modules: {
-        //       mode: 'icss',
-        //     },
-        //   }),
-        //   sideEffects: true,
-        // },
-        // {
-        //   test: /\.less$/,
-        //   exclude: /node_modules/,
-        //   use: getStyleLoaders(
-        //     {
-        //       importLoaders: 3,
-        //       modules: {
-        //         mode: 'icss',
-        //       },
-        //     },
-        //     'less-loader',
-        //   ),
-        //   sideEffects: true,
-        // },
       ],
     },
     plugins: [
@@ -226,10 +192,8 @@ module.exports = function (env) {
       splitChunks: {
         cacheGroups: {
           vendors: {
-            // node_modules里的代码
             test: /[\\/]node_modules[\\/]/,
             chunks: 'all',
-            // name: 'vendors', 一定不要定义固定的name
             priority: 10, // 优先级
             enforce: true,
           },
