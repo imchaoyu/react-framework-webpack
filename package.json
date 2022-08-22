@@ -5,8 +5,8 @@
   "author": "chaoyumail@126.com",
   "main": "index.js",
   "scripts": {
-    "start": "node ./config/server.js development",
-    "dev": "node ./config/server.js development mock",
+    "start": "node ./script/start.js",
+    "dev": "node ./script/start.js",
     "build": "cross-env APP_ENV=prod webpack --config ./config/webpack.config.js --progress",
     "analyze": "webpack-bundle-analyzer --port 9999 ./dist/stats.json"
   },

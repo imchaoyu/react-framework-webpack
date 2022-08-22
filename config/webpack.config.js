@@ -9,24 +9,29 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const chalk = require('chalk');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const { isDev, isProd, resolveAPP, ipv } = require('./webpack.utils');
+const { resolveAPP } = require('./webpack.utils');
 const serverConfig = {
   // 开发环境本地启动的服务配置
   static: {
-    directory: resolveAPP('../dist'),
+    directory: resolveAPP('../public'),
+    // watch: {
+    //   // ignored: ignoredFiles(resolveAPP('./src')),
+    // },
   },
   port: 3000,
   compress: true,
   // proxy: devProxy,
   historyApiFallback: true, // 当找不到路径时，默认加载index.html
-  client: {
-    // 不显示[webpack-dev-server]的log
-    logging: 'none',
-    progress: false,
-    reconnect: false,
-  },
+  // client: {
+  //   // 不显示[webpack-dev-server]的log
+  //   logging: 'none',
+  //   progress: false,
+  //   reconnect: false,
+  // },
 };
 module.exports = function (env) {
+  const isDev = env === 'development';
+  const isProd = env === 'production';
   // 提取css
   const styleLoader = isDev ? 'style-loader' : MiniCssExtractPlugin.loader;
   // 配置
@@ -158,22 +163,14 @@ module.exports = function (env) {
       // 进度条
       new ProgressBarPlugin({
         format: `:msg [:bar] ${chalk.cyan(':percent')} (:elapsed s)`,
-        // clear: false,
         incomplete: '*',
-        callback() {
-          console.log(
-            `${chalk.bgGreen('Done!')}Starting server on ${chalk.cyanBright.bold(
-              'http://localhost:' + serverConfig.port,
-            )}`,
-          );
-          console.log(
-            `On Your Network: ${chalk.cyan('http://' + ipv() + ':' + serverConfig.port)}`,
-          );
-        },
       }),
       // 热更新
-      new webpack.HotModuleReplacementPlugin(),
-      new ReactRefreshWebpackPlugin(),
+      isDev && new webpack.HotModuleReplacementPlugin(),
+      isDev &&
+        new ReactRefreshWebpackPlugin({
+          overlay: false,
+        }),
       // 定义全局变量
       new webpack.DefinePlugin({
         APP_VERSION: `"${require('../package.json').version}"`,

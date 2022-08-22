@@ -43,9 +43,11 @@ const BasicLayout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
+  const [title, setTitle] = useState('');
 
   const [collapsed, setCollapsed] = useState(false);
   const handlerMenuClick = (info) => {
+    console.log('info: ', info);
     navigate(info.key);
   };
   return (
