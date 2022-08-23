@@ -15,11 +15,21 @@ const formatWebpackMessages = require('../config/formatWebpackMessages');
 const { ipv } = require('../config/webpack.utils');
 const { clearConsole } = require('../config/webpack.utils');
 const config = configFactory('development');
+const { resolveAPP } = require('../config/webpack.utils');
 
-const devServerOptions = { ...config.devServer, open: true };
 const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
-
+const devServerOptions = {
+  // 开发环境本地启动的服务配置
+  static: {
+    directory: resolveAPP('../public'),
+  },
+  port: 3000,
+  compress: true,
+  // proxy: devProxy,
+  historyApiFallback: true, // 当找不到路径时，默认加载index.html
+  open: true,
+};
 const createCompiler = () => {
   let webpackCompiler;
   try {

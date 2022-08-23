@@ -47,7 +47,6 @@ const BasicLayout = (props) => {
 
   const [collapsed, setCollapsed] = useState(false);
   const handlerMenuClick = (info) => {
-    console.log('info: ', info);
     navigate(info.key);
   };
   return (
@@ -67,7 +66,7 @@ const BasicLayout = (props) => {
           <div className="logo" />
           <Menu
             theme="dark"
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={['home']}
             mode="inline"
             items={menuData}
             onClick={handlerMenuClick}
@@ -100,7 +99,7 @@ const BasicLayout = (props) => {
               textAlign: 'center',
             }}
           >
-            Ant Design ©2018 Created by Ant UED
+            react-admin
           </Footer>
         </Layout>
       </Layout>

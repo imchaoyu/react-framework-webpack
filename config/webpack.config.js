@@ -10,16 +10,7 @@ const chalk = require('chalk');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const { resolveAPP } = require('./webpack.utils');
-const serverConfig = {
-  // 开发环境本地启动的服务配置
-  static: {
-    directory: resolveAPP('../public'),
-  },
-  port: 3000,
-  compress: true,
-  // proxy: devProxy,
-  historyApiFallback: true, // 当找不到路径时，默认加载index.html
-};
+
 module.exports = function (env) {
   const isDev = env === 'development';
   const isProd = env === 'production';
@@ -49,6 +40,7 @@ module.exports = function (env) {
       cacheDirectory: resolveAPP('../src/.cache'),
     },
     module: {
+      strictExportPresence: true,
       rules: [
         {
           test: /\.(js|jsx|ts|tsx|mjs|cjs)$/, // 匹配哪些文件
@@ -212,8 +204,8 @@ module.exports = function (env) {
     infrastructureLogging: {
       level: 'none',
     },
+    performance: false,
   };
-  if (isDev) config.devServer = serverConfig;
   if (isProd) {
     config.plugins.push(
       // 打包分析
