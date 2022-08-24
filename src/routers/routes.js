@@ -3,21 +3,19 @@ export const routes = [
   {
     path: '/',
     name: '首页',
-    icon: 'smile',
+    icon: 'home',
     accsee: '',
     children: [
       { path: '/', redirect: '/home' },
       {
         path: '/home',
         name: '首页',
-        icon: 'Home',
         component: 'pages/Home',
       },
-      { path: '/app', name: 'APP', icon: 'smile', component: 'pages/App' },
+      { path: '/app', name: 'APP', component: 'pages/App' },
       {
         path: '/system',
         name: '系统',
-        icon: 'smile',
         component: 'pages/System',
       },
     ],

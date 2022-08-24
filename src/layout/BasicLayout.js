@@ -1,3 +1,4 @@
+import Icon from '@/components/IconFont';
 import { routes } from '@/routers/routes';
 import { Breadcrumb, Layout, Menu } from 'antd';
 import { useState } from 'react';
@@ -7,7 +8,7 @@ const { Header, Content, Footer, Sider } = Layout;
 console.log('routes: ', routes);
 
 function getItem(label, key, iconText, children) {
-  const icon = '';
+  const icon = iconText && <Icon name={iconText} />;
   const title = icon ?? label;
   return {
     key,
@@ -66,7 +67,8 @@ const BasicLayout = (props) => {
           <div className="logo" />
           <Menu
             theme="dark"
-            defaultSelectedKeys={['home']}
+            defaultOpenKeys={['/']}
+            defaultSelectedKeys={['/home']}
             mode="inline"
             items={menuData}
             onClick={handlerMenuClick}
