@@ -10,13 +10,21 @@ export const routes = [
       {
         path: '/home',
         name: '首页',
-        component: 'pages/Home',
+        component: './Home',
       },
-      { path: '/app', name: 'APP', component: 'pages/App' },
+      { path: '/app', name: 'APP', component: './App' },
       {
         path: '/system',
         name: '系统',
-        component: 'pages/System',
+        // component: './System',
+        children: [
+          { path: '/system', redirect: '/system/dashboard' },
+          {
+            path: '/system/dashboard/:id',
+            name: '看板',
+            component: './System',
+          },
+        ],
       },
     ],
   },
@@ -24,7 +32,8 @@ export const routes = [
     path: '/login',
     name: '登录',
     layout: false,
-    component: 'pages/Login',
+    hideInMenu: true,
+    component: './Login',
   },
   {
     from: '*',

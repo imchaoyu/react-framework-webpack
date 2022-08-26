@@ -5,36 +5,22 @@ import { routes } from './routes';
 import BasicLayout from '@/layout/BasicLayout';
 import LazyLoad from './LazyLoad';
 
-const renderRouter = (routerList) => {
-  return routerList.map((item) => {
-    const { path, children } = item;
-    const layout = item.layout ?? true;
-    // const token = localStorage.getItem('token');
-    // console.log(token);
-    // if (!noAuth && !token) return <Route path="*" element={<Navigate to="/login" />} />;
+const renderRouter = (router) => {
+  return router.map((item, index) => {
     if (!item.path) {
       return <Route key={item.to} path={item.from} element={LazyLoad(item.to)} />;
     }
-    const ele = item.component && !layout ? LazyLoad(item.component) : <BasicLayout />;
+    const basic = item?.layout === 'basic';
+    const ele = item.component && !basic ? LazyLoad(item.component) : <BasicLayout />;
     return (
       <Route
-        key={path}
+        key={item.path}
+        path={item.path}
         exact={item.exact ?? true}
-        path={path}
         element={item.redirect ? <Navigate to={item.redirect} /> : ele}
+        {...(item.props = {})}
       >
-        {!!children &&
-          children.map((i) => {
-            const iele = i.component && !i.layout ? LazyLoad(i.component) : <BasicLayout />;
-            return (
-              <Route
-                key={i.path}
-                exact={i.exact ?? true}
-                path={i.path}
-                element={i.redirect ? <Navigate to={i.redirect} /> : iele}
-              />
-            );
-          })}
+        {item.children && renderRouter(item.children)}
       </Route>
     );
   });

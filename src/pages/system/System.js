@@ -1,4 +1,7 @@
+import { useParams } from 'react-router-dom';
 const System = () => {
-  return <h1>system</h1>;
+  const params = useParams();
+  console.log('params: ', params);
+  return <h1>system-{params.id}</h1>;
 };
 export default System;

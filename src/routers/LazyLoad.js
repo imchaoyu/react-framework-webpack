@@ -5,7 +5,8 @@ import { lazy, Suspense } from 'react';
 
 const LazyLoad = (path) => {
   if (!path) return <NotFound />;
-  const Component = lazy(() => import(`../${path}`));
+  const realPath = path.replace('./', '');
+  const Component = lazy(() => import(`../pages/${realPath}`));
   return (
     <Suspense fallback={<Loading />}>
       <Component />

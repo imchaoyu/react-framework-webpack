@@ -7,43 +7,61 @@ import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 const { Header, Content, Footer, Sider } = Layout;
 console.log('routes: ', routes);
 
-function getItem(label, key, iconText, children) {
-  const icon = iconText && <Icon name={iconText} />;
-  const title = icon ?? label;
+const getItem = (item) => {
+  if (!item.name) return;
+  const icon = item.icon && <Icon name={item.icon} />;
+  const title = icon ?? item.name;
   return {
-    key,
+    key: item.path,
     icon,
-    children,
-    label,
+    children: item.children,
+    label: item.name,
     title,
   };
-}
+};
+const getMenuData = (data = routes, parentAuthority) => {
+  console.trace();
+  return data.map((item) => {
+    // if (item.layout === 'basic') {
+    //   return getMenuData(item.children);
+    // }
+    const hasLayout = item.layout;
+    const isHide = item.hideInMenu;
+    if (!isHide && !item.redirect && !item.from) {
+      const result = getItem({
+        ...item,
+        authority: item.authority || parentAuthority,
+      });
+      if (item.children) {
+        const children = getMenuData(item.children, item.authority);
+        result.children = children;
+      }
+      console.log('result: ', result);
+      return result;
+    }
+  });
+};
+
+const getMenu = (list = routes, result = []) => {
+  list.map((item) => {
+    const menu = getItem(...item);
+    if (item.children) {
+      return getMenu(item.children, result);
+    }
+    return result.push(menu);
+  });
+};
 
 const title = '测试-';
-const getMenuData = (list = routes) => {
-  let menu = [];
-  list.map((route) => {
-    const isHide = route?.hideInMenu ?? false;
-    const isLayout = route?.layout ?? true;
-    (isHide || isLayout) &&
-      route.name &&
-      menu.push(
-        getItem(
-          route.name,
-          route.path,
-          route.icon,
-          route.children && [...getMenuData(route.children)],
-        ),
-      );
-  });
-  return menu;
-};
+console.time('menu');
 const menuData = getMenuData();
-
+console.timeEnd('menu');
 const BasicLayout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
+
+  console.log('menuData: ', menuData);
   const [title, setTitle] = useState('');
 
   const [collapsed, setCollapsed] = useState(false);
