@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 const { Header, Content, Footer, Sider } = Layout;
-console.log('routes: ', routes);
 
 const getItem = (item) => {
   if (!item.name) return;
@@ -20,41 +19,29 @@ const getItem = (item) => {
   };
 };
 const getMenuData = (data = routes, parentAuthority) => {
-  console.trace();
+  const firstRoute = data[0];
+  if (!firstRoute.layout && !firstRoute.name && !firstRoute.icon && firstRoute.children) {
+    return getMenuData(firstRoute.children);
+  }
   return data.map((item) => {
-    // if (item.layout === 'basic') {
-    //   return getMenuData(item.children);
-    // }
-    const hasLayout = item.layout;
     const isHide = item.hideInMenu;
     if (!isHide && !item.redirect && !item.from) {
       const result = getItem({
         ...item,
         authority: item.authority || parentAuthority,
       });
-      if (item.children) {
+      if (item.name && item.children) {
         const children = getMenuData(item.children, item.authority);
         result.children = children;
       }
-      console.log('result: ', result);
       return result;
     }
   });
 };
 
-const getMenu = (list = routes, result = []) => {
-  list.map((item) => {
-    const menu = getItem(...item);
-    if (item.children) {
-      return getMenu(item.children, result);
-    }
-    return result.push(menu);
-  });
-};
-
 const title = '测试-';
 console.time('menu');
-const menuData = getMenuData();
+const menuData = getMenuData().filter(Boolean);
 console.timeEnd('menu');
 const BasicLayout = (props) => {
   const navigate = useNavigate();

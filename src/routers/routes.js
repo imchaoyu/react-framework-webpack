@@ -2,26 +2,33 @@
 export const routes = [
   {
     path: '/',
-    name: '首页',
-    icon: 'home',
     accsee: '',
     children: [
       { path: '/', redirect: '/home' },
       {
         path: '/home',
         name: '首页',
+        icon: 'home',
         component: './Home',
       },
-      { path: '/app', name: 'APP', component: './App' },
+      { path: '/app', name: 'APP', component: './App', icon: 'dashboard' },
       {
         path: '/system',
         name: '系统',
-        // component: './System',
+        icon: 'xitong',
+        component: './System',
         children: [
-          { path: '/system', redirect: '/system/dashboard' },
+          { path: '/system', redirect: '/system/dashboard/100' },
+          {
+            path: '/system/dashboard',
+            name: '看板',
+            icon: 'dashboard',
+            component: './System',
+          },
           {
             path: '/system/dashboard/:id',
-            name: '看板',
+            // name: 'params',
+            hideInMenu: true,
             component: './System',
           },
         ],
