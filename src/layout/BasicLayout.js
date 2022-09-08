@@ -65,17 +65,19 @@ const breadcrumbMaps = getBreadcrumbNameMap();
 
 // 根据当前路由获取title
 const getPageTitle = (pathname) => {
-  let currRouterData = null;
+  let name, key;
   // match params path
-  Object.keys(breadcrumbMaps).forEach((key) => {
-    if (key === pathname) {
-      currRouterData = breadcrumbMaps[key];
+  Object.keys(breadcrumbMaps).forEach((path) => {
+    if (path === pathname) {
+      name = breadcrumbMaps[path];
+      key = path;
     }
   });
-  if (!currRouterData) {
+  if (!name) {
     return 'react admin';
   }
-  return `${currRouterData} - react admin`;
+  // return `${currRouterData} - react admin`;
+  return { key, name };
 };
 
 const BasicLayout = (props) => {
@@ -102,7 +104,8 @@ const BasicLayout = (props) => {
     </Breadcrumb.Item>,
   ].concat(extraBreadcrumbItems);
 
-  const curTitle = getPageTitle(location.pathname);
+  const curTitle = getPageTitle(location.pathname).name;
+  const curPath = getPageTitle(location.pathname).key;
 
   const [collapsed, setCollapsed] = useState(false);
   const handlerMenuClick = (info) => {
@@ -125,8 +128,7 @@ const BasicLayout = (props) => {
           <div className="logo" />
           <Menu
             theme="dark"
-            defaultOpenKeys={['/']}
-            defaultSelectedKeys={['/home']}
+            defaultSelectedKeys={[curPath]}
             mode="inline"
             items={menuData}
             onClick={handlerMenuClick}
