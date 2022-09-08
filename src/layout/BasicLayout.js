@@ -1,5 +1,6 @@
 import Icon from '@/components/IconFont';
 import { routes } from '@/routers/routes';
+import { HomeOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu } from 'antd';
 import { useState } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
@@ -41,6 +42,7 @@ const getMenuData = (data = routes, parentAuthority) => {
     }
   });
 };
+const menuData = getMenuData().filter(Boolean);
 
 // 根据路由配置生成面包屑
 const getBreadcrumbNameMap = () => {
@@ -59,13 +61,23 @@ const getBreadcrumbNameMap = () => {
   mergeMenuAndRouter(routes[0].children);
   return routerMap;
 };
-
-const title = '测试-';
-console.time('menu');
-const menuData = getMenuData().filter(Boolean);
-console.timeEnd('menu');
 const breadcrumbMaps = getBreadcrumbNameMap();
-console.log('breadcrumbMaps: ', breadcrumbMaps);
+
+// 根据当前路由获取title
+const getPageTitle = (pathname) => {
+  let currRouterData = null;
+  // match params path
+  Object.keys(breadcrumbMaps).forEach((key) => {
+    if (key === pathname) {
+      currRouterData = breadcrumbMaps[key];
+    }
+  });
+  if (!currRouterData) {
+    return 'react admin';
+  }
+  return `${currRouterData} - react admin`;
+};
+
 const BasicLayout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -84,12 +96,13 @@ const BasicLayout = (props) => {
 
   const breadcrumbItems = [
     <Breadcrumb.Item key="home">
-      <Link to="/">首页</Link>
+      <Link to="/">
+        <HomeOutlined />
+      </Link>
     </Breadcrumb.Item>,
   ].concat(extraBreadcrumbItems);
 
-  console.count('menuData: ');
-  const [title, setTitle] = useState('');
+  const curTitle = getPageTitle(location.pathname);
 
   const [collapsed, setCollapsed] = useState(false);
   const handlerMenuClick = (info) => {
@@ -99,8 +112,8 @@ const BasicLayout = (props) => {
     <>
       <HelmetProvider>
         <Helmet>
-          <title>{title}</title>
-          <meta name="description" content={title} />
+          <title>{curTitle}</title>
+          <meta name="description" content={curTitle} />
         </Helmet>
       </HelmetProvider>
       <Layout
