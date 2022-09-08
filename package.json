@@ -1,6 +1,6 @@
 {
   "name": "admin",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "a system by react and eggjs",
   "author": "chaoyumail@126.com",
   "main": "index.js",
