@@ -32,6 +32,7 @@ npm run analyze
 - [ ] 权限
 
 # 目录结构
+```
 ├───config
 ├───dist
 ├───mock
@@ -53,6 +54,7 @@ npm run analyze
     ├───routers
     ├───services
     └───utils
+```
 
 # 配置式路由格式
  位于 `src\routers\routes.js` 内，格式采取如下形式：
