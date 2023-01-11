@@ -1,5 +1,5 @@
 module.exports = {
-  extends: [require.resolve('cy-style/dist/eslint')],
+  extends: [require.resolve('luoshen/dist/eslint')],
   rules: {
     'no-unused-vars': 0,
   },

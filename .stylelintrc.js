@@ -1,5 +1,5 @@
 module.exports = {
-  extends: [require.resolve('cy-style/dist/stylelint')],
+  extends: [require.resolve('luoshen/dist/stylelint')],
   rules: {
     // your rules
   },

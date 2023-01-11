@@ -1,5 +1,5 @@
-const cyStyle = require('cy-style');
+const luoshen = require('luoshen');
 
 module.exports = {
-  ...cyStyle.prettier,
+  ...luoshen.prettier,
 };
