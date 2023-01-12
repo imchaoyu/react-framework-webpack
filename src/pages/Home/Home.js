@@ -1,6 +1,5 @@
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-
 const Home = () => {
   const navigate = useNavigate();
   const setParams = () => {
@@ -8,7 +7,7 @@ const Home = () => {
   };
   return (
     <>
-      <Button type="primary" onClick={setParams}>
+      <Button type='primary' onClick={setParams}>
         pararms
       </Button>
       <h1>home</h1>

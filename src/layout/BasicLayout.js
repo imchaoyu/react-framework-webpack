@@ -4,7 +4,13 @@ import { HomeOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu } from 'antd';
 import { useState } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 const { Header, Content, Footer, Sider } = Layout;
 
 // antd menu数据转化
@@ -23,7 +29,12 @@ const getItem = (item) => {
 // 根据路由配置生成菜单
 const getMenuData = (data = routes, parentAuthority) => {
   const firstRoute = data[0];
-  if (!firstRoute.layout && !firstRoute.name && !firstRoute.icon && firstRoute.children) {
+  if (
+    !firstRoute.layout &&
+    !firstRoute.name &&
+    !firstRoute.icon &&
+    firstRoute.children
+  ) {
     return getMenuData(firstRoute.children);
   }
   return data.map((item) => {
@@ -97,8 +108,8 @@ const BasicLayout = (props) => {
   });
 
   const breadcrumbItems = [
-    <Breadcrumb.Item key="home">
-      <Link to="/">
+    <Breadcrumb.Item key='home'>
+      <Link to='/'>
         <HomeOutlined />
       </Link>
     </Breadcrumb.Item>,
@@ -116,7 +127,7 @@ const BasicLayout = (props) => {
       <HelmetProvider>
         <Helmet>
           <title>{curTitle}</title>
-          <meta name="description" content={curTitle} />
+          <meta name='description' content={curTitle} />
         </Helmet>
       </HelmetProvider>
       <Layout
@@ -124,19 +135,23 @@ const BasicLayout = (props) => {
           minHeight: '100vh',
         }}
       >
-        <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-          <div className="logo" />
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          onCollapse={(value) => setCollapsed(value)}
+        >
+          <div className='logo' />
           <Menu
-            theme="dark"
+            theme='dark'
             defaultSelectedKeys={[curPath]}
-            mode="inline"
+            mode='inline'
             items={menuData}
             onClick={handlerMenuClick}
           />
         </Sider>
-        <Layout className="site-layout">
+        <Layout className='site-layout'>
           <Header
-            className="site-layout-background"
+            className='site-layout-background'
             style={{
               padding: '0 10px',
               background: '#fff',

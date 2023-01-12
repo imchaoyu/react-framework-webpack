@@ -10,10 +10,10 @@ if (process.env.MOCK && 'development' === process.env.APP_ENV) {
   console.log('%c前端 mock 环境启动成功', 'color: green;font-weight: bold');
 }
 // 路由
-const RenderRouter = () => {
+const RenderRouter = () => (
   // const state= useSelection()
-  return <Router login="true" />;
-};
+  <Router login='true' />
+);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

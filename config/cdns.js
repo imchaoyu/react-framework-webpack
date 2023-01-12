@@ -1,8 +1,6 @@
 const pkg = require('../package.json');
 const env = process.env.APP_ENV;
-const getVersion = (param) => {
-  return pkg.dependencies[param].split('^')[1];
-};
+const getVersion = (param) => pkg.dependencies[param].split('^')[1];
 
 /**
  * dll列表
@@ -36,9 +34,8 @@ const cdn = {
 };
 
 const CDNURL = {
-  bootcdn: (module, value) => {
-    return `https://cdn.bootcdn.net/ajax/libs/${module}/${getVersion(module)}/${value}`;
-  },
+  bootcdn: (module, value) =>
+    `https://cdn.bootcdn.net/ajax/libs/${module}/${getVersion(module)}/${value}`,
 };
 
 DLLLIST.map((entry) => {
