@@ -11,6 +11,7 @@ import {
   useNavigate,
   useParams,
 } from 'react-router-dom';
+import ErrorBoundary from '@/components/ErrorPage/ErrorBoundary.js';
 const { Header, Content, Footer, Sider } = Layout;
 
 // antd menu数据转化
@@ -108,7 +109,7 @@ const BasicLayout = (props) => {
   });
 
   const breadcrumbItems = [
-    <Breadcrumb.Item key='home'>
+    <Breadcrumb.Item key='dashboard'>
       <Link to='/'>
         <HomeOutlined />
       </Link>
@@ -165,13 +166,15 @@ const BasicLayout = (props) => {
               {breadcrumbItems}
             </Breadcrumb>
           </Header>
-          <Content
-            style={{
-              margin: '16px',
-            }}
-          >
-            <Outlet />
-          </Content>
+          <ErrorBoundary>
+            <Content
+              style={{
+                margin: '16px',
+              }}
+            >
+              <Outlet />
+            </Content>
+          </ErrorBoundary>
           <Footer
             style={{
               textAlign: 'center',

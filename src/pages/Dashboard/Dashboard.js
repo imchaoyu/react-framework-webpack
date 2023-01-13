@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-const Home = () => {
+const Dashboard = () => {
   const navigate = useNavigate();
   const setParams = () => {
     navigate('/system/dashboard/100');
@@ -14,4 +14,4 @@ const Home = () => {
     </>
   );
 };
-export default Home;
+export default Dashboard;

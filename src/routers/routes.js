@@ -4,12 +4,12 @@ export const routes = [
     path: '/',
     accsee: '',
     children: [
-      { path: '/', redirect: '/home' },
+      { path: '/', redirect: '/dashboard' },
       {
-        path: '/home',
-        name: '首页',
-        icon: 'home',
-        component: './Home',
+        path: '/dashboard',
+        name: '看板',
+        icon: 'dashboard',
+        component: './Dashboard',
       },
       { path: '/app', name: 'APP', component: './App', icon: 'dashboard' },
       {
