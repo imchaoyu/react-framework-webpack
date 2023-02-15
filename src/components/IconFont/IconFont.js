@@ -8,7 +8,10 @@ const Icon = (props) => {
   return (
     <IconFont
       type={icon}
-      style={{ fontSize: props.fontSize ?? '16px', color: props.color ?? '#fff' }}
+      style={{
+        fontSize: props.fontSize ?? '16px',
+        color: props.color ?? '#fff',
+      }}
     />
   );
 };

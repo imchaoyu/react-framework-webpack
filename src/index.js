@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 // import App from './App';
 import Router from './routers';
+import ErrorBoundary from '@/components/ErrorPage/ErrorBoundary.js';
 
 console.log('process.env: ', process.env);
 if (process.env.MOCK && 'development' === process.env.APP_ENV) {
@@ -17,6 +18,8 @@ const RenderRouter = () => (
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RenderRouter />
+    <ErrorBoundary>
+      <RenderRouter />
+    </ErrorBoundary>
   </React.StrictMode>,
 );

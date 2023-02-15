@@ -9,7 +9,6 @@ import { routes } from './routes';
 
 import BasicLayout from '@/layout/BasicLayout';
 import LazyLoad from './LazyLoad';
-import ErrorBoundary from '@/components/ErrorPage/ErrorBoundary.js';
 
 const renderRouter = (router) =>
   router.map((item, index) => {
@@ -20,13 +19,7 @@ const renderRouter = (router) =>
     }
     const basic = item?.layout === 'basic';
     const ele =
-      item.component && !basic ? (
-        LazyLoad(item.component)
-      ) : (
-        <ErrorBoundary>
-          <BasicLayout />
-        </ErrorBoundary>
-      );
+      item.component && !basic ? LazyLoad(item.component) : <BasicLayout />;
     return (
       <Route
         key={item.path}

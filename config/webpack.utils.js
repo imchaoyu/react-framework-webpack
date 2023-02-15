@@ -99,7 +99,24 @@ const ipv = () => {
 };
 
 const clearConsole = () => {
-  process.stdout.write(process.platform === 'win32' ? '\x1B[2J\x1B[0f' : '\x1B[2J\x1B[3J\x1B[H');
+  process.stdout.write(
+    process.platform === 'win32' ? '\x1B[2J\x1B[0f' : '\x1B[2J\x1B[3J\x1B[H',
+  );
+};
+
+const minify = {
+  minify: {
+    removeComments: true,
+    collapseWhitespace: true,
+    removeRedundantAttributes: true,
+    useShortDoctype: true,
+    removeEmptyAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    keepClosingSlash: true,
+    minifyJS: true,
+    minifyCSS: true,
+    minifyURLs: true,
+  },
 };
 
 module.exports = {
@@ -110,4 +127,5 @@ module.exports = {
   getStyleLoaders,
   ipv,
   clearConsole,
+  minify,
 };

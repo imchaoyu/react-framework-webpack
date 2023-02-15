@@ -70,7 +70,11 @@ const createCompiler = () => {
           protocol + '://' + 'localhost:' + DEFAULT_PORT,
         )}`,
       );
-      console.log(`On Network: ${chalk.cyan(protocol + '://' + ipv() + ':' + DEFAULT_PORT)}`);
+      console.log(
+        `On Network: ${chalk.cyan(
+          protocol + '://' + ipv() + ':' + DEFAULT_PORT,
+        )}`,
+      );
     }
     isFirstCompile = false;
   });

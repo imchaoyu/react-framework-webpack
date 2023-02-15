@@ -8,7 +8,8 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const chalk = require('chalk');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const { resolveAPP } = require('./webpack.utils');
 
 module.exports = function (env) {
@@ -26,8 +27,10 @@ module.exports = function (env) {
       main: resolveAPP('../src/index'),
     },
     output: {
-      path: resolveAPP('../dist'),
-      filename: isDev ? 'static/js/[name].bundle.js' : 'static/js/[name].[contenthash:8].js',
+      path: resolveAPP('../dist/'),
+      filename: isDev
+        ? 'static/js/[name].bundle.js'
+        : 'static/js/[name].[contenthash:8].js',
       chunkFilename: isDev
         ? 'static/js/[name].chunk.js'
         : 'static/js/[name].[contenthash:8].chunk.js',

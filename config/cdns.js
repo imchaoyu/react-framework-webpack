@@ -35,7 +35,9 @@ const cdn = {
 
 const CDNURL = {
   bootcdn: (module, value) =>
-    `https://cdn.bootcdn.net/ajax/libs/${module}/${getVersion(module)}/${value}`,
+    `https://cdn.bootcdn.net/ajax/libs/${module}/${getVersion(
+      module,
+    )}/${value}`,
 };
 
 DLLLIST.map((entry) => {

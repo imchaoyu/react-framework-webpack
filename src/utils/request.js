@@ -7,7 +7,7 @@ const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
 const request = axios.create({
   baseURL: '',
   timeout: 100000,
-  headers: headers,
+  headers,
   withCredentials: true,
 });
 // 请求拦截器
@@ -25,9 +25,7 @@ request.interceptors.request.use(
     };
   },
   // 错误处理
-  (error) => {
-    return Promise.reject(error);
-  },
+  (error) => Promise.reject(error),
 );
 
 // 响应拦截器
